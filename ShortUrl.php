@@ -32,7 +32,7 @@ class ShortUrl
                 DB::create($insertArray);
                 $reponse['status'] = "success";
                 $reponse['code'] = 200;
-                $reponse['short_url'] = $_SERVER['SERVER_NAME'] . '/' . $insertArray['short_url'];
+                $reponse['short_url'] = $_SERVER['SERVER_NAME'] . '/newsbytes-short-url/' . $insertArray['short_url'];
                 $reponse['message'] = "Url generated successfully";
                 return $reponse;
             } else {
@@ -80,7 +80,7 @@ class ShortUrl
             }
             return $row['url'];
         } else {
-            return 404;
+            return null;
         }
     }
 }

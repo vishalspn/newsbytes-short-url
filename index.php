@@ -24,6 +24,8 @@ switch ($path) {
 
 EOD;
             echo $reshtml;
+        } else {
+            header('HTTP/1.1 404 Not Found');
         }
 
 }

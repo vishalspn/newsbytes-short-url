@@ -38,7 +38,7 @@ CREATE TABLE `short_url` (
 ```
 ```php
     Url : http://localhost/newsbytes-short-url/api/createlink
-    Input Parameters : url = https://google.com,single_time_use_flag = 1
+    Payload : { "url" : "https://google.com","single_time_use_flag": 1}
     Request Type : POST
     Response : {
                 "status": "success",
@@ -59,7 +59,7 @@ CREATE TABLE `short_url` (
     Request Type : Get
     Description : You have to hit this api from browser to get redirected
                   to the original url , if short url is not found you will
-                  not found on browser else it will redirect to you to 
+                  404 error on browser else it will redirect to you to 
                   destination url.  
 
 
