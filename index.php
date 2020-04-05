@@ -3,7 +3,7 @@ require_once './ShortUrl.php';
 $path = $_SERVER['REQUEST_URI'];
 $obj = new ShortUrl();
 switch ($path) {
-    case '/newsbytes/api/createlink':
+    case '/newsbytes-short-url/api/createlink':
         $res = $obj->createShortUrl($_POST);
         header('Content-Type: text/json; charset=utf-8');
         echo json_encode($res);

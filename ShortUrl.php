@@ -71,7 +71,7 @@ class ShortUrl
         }
         $path = parse_url($shortUrl);
         # fetch url from short Url
-        $url = DB::getUrl(str_replace('/newsbytes/', '', $path['path']));
+        $url = DB::getUrl(str_replace('/newsbytes-short-url/', '', $path['path']));
         if ($url->num_rows > 0) {
             #check url is one useable or not
             $row = mysqli_fetch_assoc($url);
