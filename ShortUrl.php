@@ -80,7 +80,7 @@ class ShortUrl
             }
             return $row['url'];
         } else {
-            return null;
+            return 404;
         }
     }
 }
