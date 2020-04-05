@@ -10,10 +10,6 @@ class DB
         $password = "root";
         $dataBase = "newsbytes";
         self::$conn = new mysqli($serverName, $userName, $password, $dataBase);
-        // if ($conn->connect_error) {
-        //     die("Connection failed: " . $conn->connect_error);
-        // }
-        // return $conn;
     }
 # function for insertion
     public static function create(array $data): int

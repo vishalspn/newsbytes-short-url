@@ -31,6 +31,12 @@ CREATE TABLE `short_url` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 ```
+Database configuration setting
+```bash
+    Go to database/datbase.php and edit the following settings as per your configuration
+        $userName = "root";
+        $password = "root"; 
+```
 
 ## Usage
 ```bash
