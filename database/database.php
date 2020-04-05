@@ -17,7 +17,7 @@ class DB
         $colums = "url,s_url,status,single_use,created_at,updated_at";
         $url = $data['url'];
         $shortUrl = $data['short_url'];
-        $singleUse  =$data['single_use'];
+        $singleUse = $data['single_use'];
         $status = $data['status'];
 
         $insertSql = "INSERT INTO short_url($colums) VALUES('$url','$shortUrl',$status,$singleUse,now(),now())";
@@ -27,8 +27,7 @@ class DB
 # function to check url already exists or not
     public static function checkUrlExists(string $url)
     {
-        // echo "!233";die;
-        $sql = "SELECT short_url from short_url where url = '$url' and status = 1";
+        $sql = "SELECT s_url from short_url where url = '$url' and status = 1";
         return self::$conn->query($sql);
     }
 # fetch Original Url from short url
@@ -43,5 +42,11 @@ class DB
         $sql = "UPDATE short_url set status = 0 where id  = '$id'";
         self::$conn->query($sql);
         return true;
+    }
+# check short string already exists or not
+    public static function checkShortString($string)
+    {
+        $sql = "SELECT s_url from short_url where s_url = '$string' and status = 1";
+        return self::$conn->query($sql);
     }
 }

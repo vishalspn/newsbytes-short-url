@@ -8,15 +8,15 @@ class ShortUrl
         DB::connection();
     }
 
-    public function createShortUrl(Array $postData)
+    public function createShortUrl(array $postData)
     {
         $url = trim($postData['url']);
         $singleTimeUse = $postData['single_time_use_flag'];
         if (empty($url)) {
-            $reponse['status'] = "success";
-            $reponse['code'] = 400;
-            $reponse['message'] = "Url Can't be empty";
-            return $reponse;
+            $response['status'] = "success";
+            $response['code'] = 400;
+            $response['message'] = "Url Can't be empty";
+            return $response;
         }
         if (empty($singleTimeUse)) {
             $singleTimeUse = 0;
@@ -24,30 +24,31 @@ class ShortUrl
         try {
             # check url already exists or not
             $urlExists = DB::checkUrlExists($url);
-            if (empty($urlExists)) {
+            if ($urlExists->num_rows <= 0) {
                 $insertArray['url'] = trim($url);
                 $insertArray['short_url'] = $this->shortUrlString();
                 $insertArray['status'] = 1;
                 $insertArray['single_use'] = $singleTimeUse;
                 DB::create($insertArray);
-                $reponse['status'] = "success";
-                $reponse['code'] = 200;
-                $reponse['short_url'] = $_SERVER['SERVER_NAME'] . '/newsbytes-short-url/' . $insertArray['short_url'];
-                $reponse['message'] = "Url generated successfully";
-                return $reponse;
+                $response['status'] = "success";
+                $response['code'] = 200;
+                $response['short_url'] = $_SERVER['SERVER_NAME'] . '/newsbytes-short-url/' . $insertArray['short_url'];
+                $response['message'] = "Url generated successfully";
+                return $response;
             } else {
-                $reponse['status'] = "success";
-                $reponse['code'] = 200;
-                $reponse['short_url'] = $urlExists['short_url'];
-                $reponse['message'] = "Url generated successfully";
-                return $reponse;
+                $row = mysqli_fetch_assoc($urlExists);
+                $response['status'] = "success";
+                $response['code'] = 200;
+                $response['short_url'] = $_SERVER['SERVER_NAME'] . '/newsbytes-short-url/' . $row['s_url'];
+                $response['message'] = "Url generated successfully";
+                return $response;
             }
 
         } catch (Exception $e) {
-            $reponse['status'] = "failed";
-            $reponse['code'] = 500;
-            $reponse['message'] = $e->getMessage();
-            return $reponse;
+            $response['status'] = "failed";
+            $response['code'] = 500;
+            $response['message'] = $e->getMessage();
+            return $response;
         }
 
     }
@@ -59,15 +60,20 @@ class ShortUrl
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+        # check that random string already exists in db or not
+        $response = DB::checkShortString($randomString);
+        if ($response->num_rows > 0) {
+            $this->shortUrlString(8);
+        }
         return $randomString;
     }
     public function redirect($shortUrl)
     {
         if (empty($shortUrl)) {
-            $reponse['status'] = "success";
-            $reponse['code'] = 400;
-            $reponse['message'] = "Url Can't be empty";
-            return $reponse;
+            $response['status'] = "success";
+            $response['code'] = 400;
+            $response['message'] = "Url Can't be empty";
+            return $response;
         }
         $path = parse_url($shortUrl);
         # fetch url from short Url
